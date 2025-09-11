@@ -7,11 +7,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Reservation extends Model {
     protected $fillable = [
-        'flight_number','departure_time','status'
+        'flight_number','departure_time','status','passengers'
     ];
     protected $casts = [
         'departure_time' => 'datetime',
+        'passengers' => 'array',
     ];
-
-    public function passengers(): HasMany { return $this->hasMany(Passenger::class); }
 }

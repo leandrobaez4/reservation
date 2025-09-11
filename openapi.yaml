@@ -1,0 +1,161 @@
+openapi: 3.0.3
+info:
+  title: SkyLink API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000/api
+paths:
+  /reservations:
+    post:
+      summary: Crea una reserva con pasajeros
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [flight_number, departure_time, passengers]
+              properties:
+                flight_number: { type: string }
+                departure_time: { type: string, format: date-time }
+                passengers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      first_name: { type: string }
+                      last_name: { type: string }
+                      document: { type: string }
+      responses:
+        '201':
+          description: Creada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: { type: integer }
+                  flight_number: { type: string }
+                  departure_time: { type: string, format: date-time }
+                  status: { type: string }
+                  passengers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id: { type: integer }
+                        first_name: { type: string }
+                        last_name: { type: string }
+                        document: { type: string }
+                  created_at: { type: string, format: date-time }
+                  updated_at: { type: string, format: date-time }
+    get:
+      summary: Lista reservas
+      parameters:
+        - in: query
+          name: status
+          schema: { type: string, enum: [PENDING,CONFIRMED,CANCELLED,CHECKED_IN] }
+        - in: query
+          name: from
+          schema: { type: string, format: date-time }
+        - in: query
+          name: to
+          schema: { type: string, format: date-time }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  current_page: { type: integer }
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id: { type: integer }
+                        flight_number: { type: string }
+                        departure_time: { type: string, format: date-time }
+                        status: { type: string }
+                        passengers:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id: { type: integer }
+                              first_name: { type: string }
+                              last_name: { type: string }
+                              document: { type: string }
+                        created_at: { type: string, format: date-time }
+                        updated_at: { type: string, format: date-time }
+                  total: { type: integer }
+                  per_page: { type: integer }
+                  last_page: { type: integer }
+                  from: { type: integer }
+                  to: { type: integer }
+  /reservations/{id}/status:
+    patch:
+      summary: Cambia el estado de una reserva
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                status:
+                  type: string
+                  enum: [PENDING,CONFIRMED,CANCELLED,CHECKED_IN]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: { type: integer }
+                  flight_number: { type: string }
+                  departure_time: { type: string, format: date-time }
+                  status: { type: string }
+                  passengers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id: { type: integer }
+                        first_name: { type: string }
+                        last_name: { type: string }
+                        document: { type: string }
+                  created_at: { type: string, format: date-time }
+                  updated_at: { type: string, format: date-time }
+  /passengers/{id}:
+    get:
+      summary: Detalle de pasajero
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: { type: integer }
+                  first_name: { type: string }
+                  last_name: { type: string }
+                  document: { type: string }
+                  created_at: { type: string, format: date-time }
+                  updated_at: { type: string, format: date-time }
