@@ -5,9 +5,11 @@
 /public/storage
 /storage/*.key
 /vendor
-.env
+# .env  # Comentado para permitir subir el .env
 .env.backup
 .env.production
+.env.local
+.env.testing
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
@@ -17,3 +19,31 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Storage directories
+/storage/logs/*.log
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/testing/*
+/storage/framework/views/*
+/bootstrap/cache/*
+
+# IDE files
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+/coverage/
+*.coverage
+
+# Backup files
+*.backup
+*.bak
+*.old
+
+# SQLite databases
+*.sqlite
+*.sqlite3
+database.sqlite

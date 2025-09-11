@@ -21,11 +21,23 @@ Proyecto fullstack para gestión de reservas y notificaciones en tiempo real.
 ### 1. Backend Laravel
 ```bash
 cd laravel
+
+# Copiar configuración
 cp .env.example .env
-# Editar .env: cambiar QUEUE_CONNECTION=sync por QUEUE_CONNECTION=database
+
+# Instalar dependencias de PHP
 composer install
+
+# Configurar aplicación
 php artisan key:generate
+
+# Configurar base de datos y colas
+# Editar .env: cambiar QUEUE_CONNECTION=sync por QUEUE_CONNECTION=database
+
+# Ejecutar migraciones con datos de prueba
 php artisan migrate --seed
+
+# Iniciar servidor de desarrollo
 php artisan serve # http://localhost:8000
 ```
 
